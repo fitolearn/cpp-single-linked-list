@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <cassert>
 #include <cstddef>
 #include <string>
@@ -75,7 +74,7 @@ class SingleLinkedList {
         // Оператор проверки итераторов на неравенство
         // Противоположен !=
         [[nodiscard]] bool operator!=(const BasicIterator<const Type>& rhs) const noexcept {
-            return this->node_ != rhs.node_;
+            return !(this->node_ == rhs.node_);
         }
 
         // Оператор сравнения итераторов (в роли второго аргумента итератор)
@@ -87,7 +86,7 @@ class SingleLinkedList {
         // Оператор проверки итераторов на неравенство
         // Противоположен !=
         [[nodiscard]] bool operator!=(const BasicIterator<Type>& rhs) const noexcept {
-            return this->node_ != rhs.node_;
+            return !(this->node_ == rhs.node_);
         }
 
         // Оператор прединкремента. После его вызова итератор указывает на следующий элемент списка
@@ -104,7 +103,6 @@ class SingleLinkedList {
         // Инкремент итератора, не указывающего на существующий элемент списка,
         // приводит к неопределённому поведению
         BasicIterator operator++(int) noexcept {
-            assert(node_ != nullptr);
             auto old_val(*this);
             ++(*this);
             return old_val;
@@ -328,7 +326,7 @@ bool operator<(const SingleLinkedList<Type>& lhs, const SingleLinkedList<Type>& 
 
 template <typename Type>
 bool operator<=(const SingleLinkedList<Type>& lhs, const SingleLinkedList<Type>& rhs) {
-    return !(lhs > rhs);
+    return rhs < lhs || rhs == lhs;
 }
 
 template <typename Type>
